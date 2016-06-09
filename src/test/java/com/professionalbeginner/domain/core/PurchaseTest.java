@@ -52,6 +52,10 @@ public class PurchaseTest {
                         factory.make(1, "type", LocalDateTime.MAX, otherDetails),
                         factory.make(1, "type", LocalDateTime.MAX, otherDetails)
                 )
+                .addEqualityGroup(
+                        Purchase.NULL,
+                        Purchase.NULL
+                )
                 .testEquals();
     }
 

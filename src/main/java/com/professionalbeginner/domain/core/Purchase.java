@@ -13,6 +13,13 @@ import static com.google.common.base.Strings.nullToEmpty;
  */
 public class Purchase {
 
+    public final static Purchase NULL;
+
+    static {
+        PurchaseFactory factory = new PurchaseFactory();
+        NULL = factory.make(0, "", LocalDateTime.MIN, Details.NULL);
+    }
+
     private long id;
     private String productType;
     private LocalDateTime expires;

@@ -15,11 +15,8 @@ public class Details {
     public final static Details NULL;
 
     static {
-        NULL = new Details();
-        NULL.setId(0);
-        NULL.setValue(0);
-        NULL.setQuantity(0);
-        NULL.setDescription("");
+        DetailsFactory factory = new DetailsFactory();
+        NULL = factory.make(0, "", 0, 0);
     }
 
 
