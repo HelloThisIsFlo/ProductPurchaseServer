@@ -5,7 +5,7 @@ import com.professionalbeginner.domain.core.Purchase;
 import java.time.LocalDateTime;
 
 /**
- * Created by Florian on 09/06/16.
+ * Validate an order if it has not expired.
  */
 public class ValidateIfNotExpired implements PurchaseValidator {
 

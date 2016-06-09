@@ -10,9 +10,6 @@ import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Florian on 09/06/16.
- */
 public class ValidateIfNotExpiredTest {
 
     PurchaseValidator validator;
@@ -60,5 +57,10 @@ public class ValidateIfNotExpiredTest {
     @Test
     public void expiresBeforeCurrentDate_doNotValidate() throws Exception {
         assertFalse(validator.validForCurrentTime(beforeCurrentDate, currentDate));
+    }
+
+    @Test
+    public void expiresAtCurrentDate_doNotValidate() throws Exception {
+        assertFalse(validator.validForCurrentTime(atExpectedDate, currentDate));
     }
 }
