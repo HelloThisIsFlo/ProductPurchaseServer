@@ -1,5 +1,6 @@
 package com.professionalbeginner.presentation;
 
+import com.professionalbeginner.domain.core.Purchase;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

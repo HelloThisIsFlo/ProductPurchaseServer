@@ -21,7 +21,6 @@ public class PurchaseDTOTest {
 
     @Test
     public void testEquality() throws Exception {
-
         new EqualsTester()
                 .addEqualityGroup(
                         new PurchaseDTO(1, "type", LocalDateTime.MAX, details),

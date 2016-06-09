@@ -9,7 +9,7 @@ import java.util.List;
 public class FakePurchaseDetailsRepository implements PurchaseDetailsRepository {
 
 
-    List<DetailsDTO> fakeDataset;
+    private List<DetailsDTO> fakeDataset;
 
     public FakePurchaseDetailsRepository() {
         fakeDataset = new ArrayList<>();
