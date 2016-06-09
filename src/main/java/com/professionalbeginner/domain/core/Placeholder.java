@@ -1,4 +1,4 @@
-package com.professionalbeginner.domain;
+package com.professionalbeginner.domain.core;
 
 /**
  * Created by Florian on 09/06/16.

@@ -1,4 +1,4 @@
-package com.professionalbeginner.presentation.controllers;
+package com.professionalbeginner.presentation;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
