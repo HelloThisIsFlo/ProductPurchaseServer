@@ -6,6 +6,7 @@ import com.professionalbeginner.domain.application.driven.PurchaseDetailsReposit
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCase;
+import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCaseFactory;
 import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.PurchaseFactory;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
@@ -46,25 +47,20 @@ public class ApplicationConfiguration {
         return new ValidateAllValidator();
     }
 
-    @Bean
-    public LocalDateTime tempRemoveUseFactory() {
-        return LocalDateTime.MIN;
-    }
 
     @Bean
-    public RetrieveValidPurchasesUseCase getRetrieveValidPurchasesUseCase(
+    public RetrieveValidPurchasesUseCaseFactory getRetrieveValidPurchasesUseCaseFactory(
             PurchaseRepository purchaseRepository,
             PurchaseDetailsRepository detailsRepository,
             PurchaseMapper purchaseMapper,
             DetailsMapper detailsMapper,
             PurchaseSerializer serializer) {
-        return new RetrieveValidPurchasesUseCase(
+        return new RetrieveValidPurchasesUseCaseFactory(
                 purchaseRepository,
                 purchaseMapper,
                 detailsRepository,
                 detailsMapper,
-                serializer,
-                tempRemoveUseFactory()
+                serializer
         );
     }
 }

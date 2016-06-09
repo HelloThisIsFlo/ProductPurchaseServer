@@ -105,13 +105,15 @@ public class RetrieveValidPurchasesUseCaseTest {
         detailsMapper = new DetailsMapper(detailsFactory);
         purchaseMapper = new PurchaseMapper(purchaseFactory, detailsMapper);
 
-        useCase = new RetrieveValidPurchasesUseCase(
+        RetrieveValidPurchasesUseCaseFactory useCaseFactory = new RetrieveValidPurchasesUseCaseFactory(
                 purchaseRepository,
                 purchaseMapper,
                 detailsRepository,
                 detailsMapper,
-                serializer,
-                currentTime);
+                serializer
+        );
+        useCase = useCaseFactory.make(currentTime);
+
         when(serializer.serializeAll(anyListOf(PurchaseDTO.class))).thenReturn(SERIALIZED_RESULT);
     }
 

@@ -9,7 +9,6 @@ import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.domain.core.Details;
 import com.professionalbeginner.domain.core.Purchase;
-import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,11 +29,11 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
 
     private final LocalDateTime currentTime;
 
-    public RetrieveValidPurchasesUseCase(PurchaseRepository purchaseRepository,
-                                         PurchaseMapper purchaseMapper,
-                                         PurchaseDetailsRepository detailsRepository,
-                                         DetailsMapper detailsMapper,
-                                         PurchaseSerializer serializer, LocalDateTime currentTime) {
+    RetrieveValidPurchasesUseCase(PurchaseRepository purchaseRepository,
+                                  PurchaseMapper purchaseMapper,
+                                  PurchaseDetailsRepository detailsRepository,
+                                  DetailsMapper detailsMapper,
+                                  PurchaseSerializer serializer, LocalDateTime currentTime) {
         this.purchaseRepository = checkNotNull(purchaseRepository);
         this.purchaseMapper = checkNotNull(purchaseMapper);
         this.detailsRepository = checkNotNull(detailsRepository);
@@ -87,7 +86,7 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
         List<Purchase> validPurchases = new ArrayList<>();
         for (Purchase purchase : allPurchase) {
             if (purchase.validate(currentTime))
-            validPurchases.add(purchase);
+                validPurchases.add(purchase);
         }
         return validPurchases;
     }
