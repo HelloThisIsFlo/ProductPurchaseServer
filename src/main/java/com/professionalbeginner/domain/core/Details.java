@@ -45,7 +45,7 @@ public class Details {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = nullToEmpty(description);
     }
 
     public int getQuantity() {

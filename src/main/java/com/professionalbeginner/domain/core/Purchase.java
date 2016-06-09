@@ -6,6 +6,8 @@ import com.professionalbeginner.domain.application.DetailsDTO;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.google.common.base.Strings.nullToEmpty;
+
 /**
  * Domain object representing a purchase
  */
@@ -33,7 +35,7 @@ public class Purchase {
     }
 
     public void setProductType(String productType) {
-        this.productType = productType;
+        this.productType = nullToEmpty(productType);
     }
 
     public LocalDateTime getExpires() {
@@ -42,6 +44,9 @@ public class Purchase {
 
     public void setExpires(LocalDateTime expires) {
         this.expires = expires;
+        if (this.expires == null) {
+            this.expires = LocalDateTime.MIN;
+        }
     }
 
     public Details getPurchaseDetails() {
@@ -50,6 +55,9 @@ public class Purchase {
 
     public void setPurchaseDetails(Details purchaseDetails) {
         this.purchaseDetails = purchaseDetails;
+        if (this.purchaseDetails == null) {
+            this.purchaseDetails = Details.NULL;
+        }
     }
 
     @Override

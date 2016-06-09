@@ -54,4 +54,22 @@ public class PurchaseTest {
                 )
                 .testEquals();
     }
+
+    @Test
+    public void nullType_replaceWithEmpty() throws Exception {
+        Purchase purchase = factory.make(1, null, LocalDateTime.MAX, details);
+        assertEquals("", purchase.getProductType());
+    }
+
+    @Test
+    public void nullExpire_replaceWithMIN() throws Exception {
+        Purchase purchase = factory.make(1, "type", null, details);
+        assertEquals(LocalDateTime.MIN, purchase.getExpires());
+    }
+
+    @Test
+    public void nullDetails_replaceWithNullObject() throws Exception {
+        Purchase purchase = factory.make(1, "type", LocalDateTime.MAX, null);
+        assertEquals(Details.NULL, purchase.getPurchaseDetails());
+    }
 }
