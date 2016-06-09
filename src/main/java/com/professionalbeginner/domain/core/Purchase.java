@@ -1,7 +1,7 @@
 package com.professionalbeginner.domain.core;
 
 import com.google.common.base.MoreObjects;
-import com.professionalbeginner.domain.application.DetailsDTO;
+import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -16,17 +16,19 @@ public class Purchase {
     public final static Purchase NULL;
 
     static {
-        PurchaseFactory factory = new PurchaseFactory();
+        PurchaseValidator validator = (toValidate, currentTime) -> false;
+        PurchaseFactory factory = new PurchaseFactory(validator);
         NULL = factory.make(0, "", LocalDateTime.MIN, Details.NULL);
     }
 
+    private final PurchaseValidator validator;
     private long id;
     private String productType;
     private LocalDateTime expires;
     private Details purchaseDetails;
 
-    Purchase() {
-
+    Purchase(PurchaseValidator validator) {
+        this.validator = validator;
     }
 
     public long getId() {
@@ -91,5 +93,9 @@ public class Purchase {
                 .add("expires", expires)
                 .add("purchaseDetails", purchaseDetails)
                 .toString();
+    }
+
+    public boolean validate(LocalDateTime currentTime) {
+        return validator.validForCurrentTime(this, currentTime);
     }
 }

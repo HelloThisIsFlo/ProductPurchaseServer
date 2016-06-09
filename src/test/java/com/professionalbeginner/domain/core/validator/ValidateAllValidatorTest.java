@@ -19,7 +19,7 @@ public class ValidateAllValidatorTest {
     public void setUp() throws Exception {
         validator = new ValidateAllValidator();
 
-        PurchaseFactory factory = new PurchaseFactory();
+        PurchaseFactory factory = new PurchaseFactory(validator);
         purchase = factory.make(1, "asdf", LocalDateTime.MIN, Details.NULL);
 
     }
