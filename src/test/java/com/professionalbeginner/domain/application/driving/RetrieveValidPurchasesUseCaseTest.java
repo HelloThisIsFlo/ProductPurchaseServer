@@ -9,7 +9,6 @@ import com.professionalbeginner.domain.application.PurchaseMapper;
 import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
-import com.professionalbeginner.domain.core.Details;
 import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.Purchase;
 import com.professionalbeginner.domain.core.PurchaseFactory;
@@ -17,8 +16,6 @@ import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 import com.professionalbeginner.domain.core.validator.ValidateAllValidator;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -26,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -94,7 +90,7 @@ public class RetrieveValidPurchasesUseCaseTest {
         fakePurchaseWithDetailsDataset.add(purchaseDTOWithDetails3);
     }
 
-    private void initUseCase(PurchaseValidator validator) {
+    private void initUseCaseWithValidator(PurchaseValidator validator) {
         DetailsFactory detailsFactory = new DetailsFactory();
         PurchaseFactory purchaseFactory = new PurchaseFactory(validator);
 
@@ -115,7 +111,7 @@ public class RetrieveValidPurchasesUseCaseTest {
 
     @Test
     public void validateAll_serializeAll() throws Exception {
-        initUseCase(new ValidateAllValidator());
+        initUseCaseWithValidator(new ValidateAllValidator());
         when(serializer.serializeAll(anyListOf(PurchaseDTO.class))).thenReturn(SERIALIZED_RESULT);
 
         useCase.execute(onSuccessCallback);
