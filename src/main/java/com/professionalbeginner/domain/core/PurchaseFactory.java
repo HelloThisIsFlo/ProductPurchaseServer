@@ -4,13 +4,15 @@ import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 
 import java.time.LocalDateTime;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class PurchaseFactory {
 
 
     private final PurchaseValidator validator;
 
     public PurchaseFactory(PurchaseValidator validator) {
-        this.validator = validator;
+        this.validator = checkNotNull(validator);
     }
 
     public Purchase make(long id, String productType, LocalDateTime expires, Details purchaseDetails) {

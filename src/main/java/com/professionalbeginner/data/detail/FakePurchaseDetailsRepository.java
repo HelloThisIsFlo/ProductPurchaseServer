@@ -24,7 +24,7 @@ public class FakePurchaseDetailsRepository implements PurchaseDetailsRepository 
     }
 
     @Override
-    public List<DetailsDTO> getAllFromId(List<Long> purchaseIds) {
+    public List<DetailsDTO> getAllFromPurchaseId(List<Long> purchaseIds) {
         return fakeDataset;
     }
 }
