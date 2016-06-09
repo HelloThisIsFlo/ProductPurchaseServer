@@ -1,5 +1,6 @@
 package com.professionalbeginner.domain.application.driven;
 
+import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.core.Purchase;
 
 import java.util.List;
@@ -9,6 +10,6 @@ import java.util.List;
  */
 public interface PurchaseSerializer {
 
-    String serializeAll(List<Purchase> purchase);
+    String serializeAll(List<PurchaseDTO> purchase);
 
 }

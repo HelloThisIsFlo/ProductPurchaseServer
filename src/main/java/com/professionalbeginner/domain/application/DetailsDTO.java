@@ -40,6 +40,9 @@ public class DetailsDTO {
 
     @Override
     public String toString() {
+        if (this.equals(NULL)) {
+            return "NULL";
+        }
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("description", description)
