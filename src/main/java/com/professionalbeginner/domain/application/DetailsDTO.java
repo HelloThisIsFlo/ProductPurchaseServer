@@ -1,10 +1,14 @@
 package com.professionalbeginner.domain.application;
 
+import com.google.common.base.MoreObjects;
+
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class DetailsDTO {
+
+    public final static DetailsDTO NULL = new DetailsDTO(0, "", 0, 0);
 
     public final long id;
     public final String description;
@@ -32,5 +36,15 @@ public class DetailsDTO {
     @Override
     public int hashCode() {
         return Objects.hash(id, description, quantity, value);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("description", description)
+                .add("quantity", quantity)
+                .add("value", value)
+                .toString();
     }
 }

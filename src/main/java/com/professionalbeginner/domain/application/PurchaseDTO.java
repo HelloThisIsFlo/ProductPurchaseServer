@@ -1,5 +1,7 @@
 package com.professionalbeginner.domain.application;
 
+import com.google.common.base.MoreObjects;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -33,5 +35,15 @@ public class PurchaseDTO {
     @Override
     public int hashCode() {
         return Objects.hash(id, productType, expires, purchaseDetails);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("productType", productType)
+                .add("expires", expires)
+                .add("purchaseDetails", purchaseDetails)
+                .toString();
     }
 }

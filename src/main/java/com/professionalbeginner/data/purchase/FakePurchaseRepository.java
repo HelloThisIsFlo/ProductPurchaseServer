@@ -19,17 +19,13 @@ public class FakePurchaseRepository implements PurchaseRepository {
     }
 
     private void initDataset() {
-        DetailsDTO detailsDTO1 = new DetailsDTO(1, "description 1", 1, 1);
-        DetailsDTO detailsDTO2 = new DetailsDTO(2, "description 2", 2, 2);
-        DetailsDTO detailsDTO3 = new DetailsDTO(3, "description 3", 3, 3);
-
         LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);
         LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 2);
         LocalDateTime dateTime3 = LocalDateTime.of(2016, 1, 1, 1, 3);
 
-        PurchaseDTO purchaseDTO1 = new PurchaseDTO(1, "type 1", dateTime1, detailsDTO1);
-        PurchaseDTO purchaseDTO2 = new PurchaseDTO(2, "type 2", dateTime2, detailsDTO2);
-        PurchaseDTO purchaseDTO3 = new PurchaseDTO(3, "type 3", dateTime3, detailsDTO3);
+        PurchaseDTO purchaseDTO1 = new PurchaseDTO(1, "type 1", dateTime1, DetailsDTO.NULL);
+        PurchaseDTO purchaseDTO2 = new PurchaseDTO(2, "type 2", dateTime2, DetailsDTO.NULL);
+        PurchaseDTO purchaseDTO3 = new PurchaseDTO(3, "type 3", dateTime3, DetailsDTO.NULL);
 
         fakeDataset.add(purchaseDTO1);
         fakeDataset.add(purchaseDTO2);

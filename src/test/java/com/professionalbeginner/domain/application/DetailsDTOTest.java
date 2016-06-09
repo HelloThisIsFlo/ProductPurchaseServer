@@ -30,6 +30,10 @@ public class DetailsDTOTest {
                         new DetailsDTO(1, "hello", 2, 5),
                         new DetailsDTO(1, "hello", 2, 5)
                 )
+                .addEqualityGroup(
+                        DetailsDTO.NULL,
+                        DetailsDTO.NULL
+                )
                 .testEquals();
     }
 

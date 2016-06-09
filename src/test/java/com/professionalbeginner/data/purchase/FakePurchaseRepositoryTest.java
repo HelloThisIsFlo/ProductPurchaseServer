@@ -1,5 +1,6 @@
 package com.professionalbeginner.data.purchase;
 
+import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import org.junit.Before;
@@ -11,12 +12,12 @@ import static org.junit.Assert.*;
 
 /**
  * This is a test for the FakePurchaseRepository TestDouble.
- * The fake repository arbitrarily returns a list with more than 2 non null elements.
+ * The fake repository arbitrarily returns a list with more than 2 non null elements, with empty details
  */
 public class FakePurchaseRepositoryTest {
 
 
-    PurchaseRepository fakePurchaseRepo;
+    private PurchaseRepository fakePurchaseRepo;
 
     @Before
     public void setUp() throws Exception {
@@ -34,6 +35,14 @@ public class FakePurchaseRepositoryTest {
         List<PurchaseDTO> result = fakePurchaseRepo.getAll();
         for (PurchaseDTO purchaseDTO : result) {
             assertNotNull(purchaseDTO);
+        }
+    }
+
+    @Test
+    public void getAll_allPurchaseDetailEmpty() throws Exception {
+        List<PurchaseDTO> result = fakePurchaseRepo.getAll();
+        for (PurchaseDTO purchaseDTO : result) {
+            assertEquals(DetailsDTO.NULL, purchaseDTO.purchaseDetails);
         }
     }
 }
