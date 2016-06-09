@@ -16,6 +16,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
@@ -43,10 +45,10 @@ public class RetrieveValidPurchasesUseCaseTest {
         DetailsFactory detailsFactory = new DetailsFactory();
         PurchaseFactory purchaseFactory = new PurchaseFactory(validator);
 
-        purchaseRepository = new FakePurchaseRepository();
+        purchaseRepository = new FakePurchaseRepository(new ArrayList<>());
         detailsMapper = new DetailsMapper(detailsFactory);
         purchaseMapper = new PurchaseMapper(purchaseFactory, detailsMapper);
-        detailsRepository = new FakePurchaseDetailsRepository();
+        detailsRepository = new FakePurchaseDetailsRepository(new ArrayList<>());
 
         useCase = new RetrieveValidPurchasesUseCase(
                 purchaseRepository,

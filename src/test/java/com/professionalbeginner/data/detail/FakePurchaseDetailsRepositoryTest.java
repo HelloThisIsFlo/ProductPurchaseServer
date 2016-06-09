@@ -18,24 +18,27 @@ public class FakePurchaseDetailsRepositoryTest {
 
     private PurchaseDetailsRepository fakePurchaseDetailsRepo;
     private static final List<Long> EMPTY_LIST_ID = new ArrayList<>();
+    private List<DetailsDTO> fakeDataset;
 
     @Before
     public void setUp() throws Exception {
-        fakePurchaseDetailsRepo = new FakePurchaseDetailsRepository();
+        fakeDataset = new ArrayList<>();
+
+        DetailsDTO detailsDTO1 = new DetailsDTO(1, "description 1", 1, 1);
+        DetailsDTO detailsDTO2 = new DetailsDTO(2, "description 2", 2, 2);
+        DetailsDTO detailsDTO3 = new DetailsDTO(3, "description 3", 3, 3);
+
+        fakeDataset.add(detailsDTO1);
+        fakeDataset.add(detailsDTO2);
+        fakeDataset.add(detailsDTO3);
+
+        fakePurchaseDetailsRepo = new FakePurchaseDetailsRepository(fakeDataset);
     }
 
-    @Test
-    public void getAll_returnListWithMoreThan2Elements() throws Exception {
-        List<DetailsDTO> result = fakePurchaseDetailsRepo.getAllFromPurchaseId(EMPTY_LIST_ID);
-        assertTrue("List should have more than 2 elements", result.size() > 2);
-    }
 
     @Test
-    public void getAll_allElementsNonNull() throws Exception {
-        List<DetailsDTO> result = fakePurchaseDetailsRepo.getAllFromPurchaseId(EMPTY_LIST_ID);
-        for (DetailsDTO detailsDTO : result) {
-            assertNotNull(detailsDTO);
-        }
+    public void getAll_returnFakeDataset() throws Exception {
+        assertEquals(fakeDataset, fakePurchaseDetailsRepo.getAllFromPurchaseId(EMPTY_LIST_ID));
     }
 
 }
