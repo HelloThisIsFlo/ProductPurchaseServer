@@ -11,6 +11,7 @@ import com.professionalbeginner.domain.core.Details;
 import com.professionalbeginner.domain.core.Purchase;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,21 +26,21 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
     private final PurchaseMapper purchaseMapper;
     private final PurchaseDetailsRepository detailsRepository;
     private final DetailsMapper detailsMapper;
-    private final PurchaseValidator validator;
     private final PurchaseSerializer serializer;
+
+    private final LocalDateTime currentTime;
 
     public RetrieveValidPurchasesUseCase(PurchaseRepository purchaseRepository,
                                          PurchaseMapper purchaseMapper,
                                          PurchaseDetailsRepository detailsRepository,
                                          DetailsMapper detailsMapper,
-                                         PurchaseValidator validator,
-                                         PurchaseSerializer serializer) {
+                                         PurchaseSerializer serializer, LocalDateTime currentTime) {
         this.purchaseRepository = checkNotNull(purchaseRepository);
         this.purchaseMapper = checkNotNull(purchaseMapper);
         this.detailsRepository = checkNotNull(detailsRepository);
         this.detailsMapper = checkNotNull(detailsMapper);
-        this.validator = checkNotNull(validator);
         this.serializer = checkNotNull(serializer);
+        this.currentTime = checkNotNull(currentTime);
     }
 
     @Override
@@ -50,8 +51,8 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
         List<Details> validDetails = getDetailsFromId(validPurchaseIds);
 
         List<Purchase> result = combinePurchaseWithCorrespondingDetails(validPurchases, validDetails);
-
         String resultJson = serializePurchases(result);
+
         onSuccessCallback.onSuccess(resultJson);
     }
 
@@ -85,6 +86,7 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
     private List<Purchase> getValidPurchases(List<Purchase> allPurchase) {
         List<Purchase> validPurchases = new ArrayList<>();
         for (Purchase purchase : allPurchase) {
+            if (purchase.validate(currentTime))
             validPurchases.add(purchase);
         }
         return validPurchases;

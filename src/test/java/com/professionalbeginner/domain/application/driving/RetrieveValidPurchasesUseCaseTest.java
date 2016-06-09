@@ -10,12 +10,14 @@ import com.professionalbeginner.domain.application.driven.PurchaseDetailsReposit
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.domain.core.DetailsFactory;
-import com.professionalbeginner.domain.core.Purchase;
 import com.professionalbeginner.domain.core.PurchaseFactory;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 import com.professionalbeginner.domain.core.validator.ValidateAllValidator;
+import com.professionalbeginner.domain.core.validator.ValidateIfNotExpired;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -23,7 +25,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,6 +41,7 @@ public class RetrieveValidPurchasesUseCaseTest {
     RetrieveValidPurchasesUseCase useCase;
 
     PurchaseRepository purchaseRepository;
+    @Mock
     PurchaseDetailsRepository detailsRepository;
     PurchaseMapper purchaseMapper;
     DetailsMapper detailsMapper;
@@ -50,6 +55,8 @@ public class RetrieveValidPurchasesUseCaseTest {
     PurchaseSerializer serializer;
     @Mock
     UseCase.OnSuccessCallback<String> onSuccessCallback;
+    @Captor
+    ArgumentCaptor<List<PurchaseDTO>> purchaseListCaptor;
 
 
     @Before
@@ -64,9 +71,9 @@ public class RetrieveValidPurchasesUseCaseTest {
         DetailsDTO detailsDTO2 = new DetailsDTO(2, "two", 2, 2);
         DetailsDTO detailsDTO3 = new DetailsDTO(3, "three", 3, 3);
 
-        LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);
-        LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 2);
-        LocalDateTime dateTime3 = LocalDateTime.of(2016, 1, 1, 1, 3);
+        LocalDateTime dateTime1 = LocalDateTime.of(2015, 1, 1, 1, 1);
+        LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 1);
+        LocalDateTime dateTime3 = LocalDateTime.of(2017, 1, 1, 1, 1);
 
         PurchaseDTO purchaseDTO1 = new PurchaseDTO(1, "type 1", dateTime1, DetailsDTO.NULL);
         PurchaseDTO purchaseDTO2 = new PurchaseDTO(2, "type 2", dateTime2, DetailsDTO.NULL);
@@ -90,32 +97,49 @@ public class RetrieveValidPurchasesUseCaseTest {
         fakePurchaseWithDetailsDataset.add(purchaseDTOWithDetails3);
     }
 
-    private void initUseCaseWithValidator(PurchaseValidator validator) {
+    private void initUseCaseWithValidator(PurchaseValidator validator, LocalDateTime currentTime) {
         DetailsFactory detailsFactory = new DetailsFactory();
         PurchaseFactory purchaseFactory = new PurchaseFactory(validator);
 
         purchaseRepository = new FakePurchaseRepository(fakePurchaseDataset);
         detailsMapper = new DetailsMapper(detailsFactory);
         purchaseMapper = new PurchaseMapper(purchaseFactory, detailsMapper);
-        detailsRepository = new FakePurchaseDetailsRepository(fakeDetailsDataset);
 
         useCase = new RetrieveValidPurchasesUseCase(
                 purchaseRepository,
                 purchaseMapper,
                 detailsRepository,
                 detailsMapper,
-                validator,
-                serializer
-        );
+                serializer,
+                currentTime);
+        when(serializer.serializeAll(anyListOf(PurchaseDTO.class))).thenReturn(SERIALIZED_RESULT);
     }
 
     @Test
     public void validateAll_serializeAll() throws Exception {
-        initUseCaseWithValidator(new ValidateAllValidator());
-        when(serializer.serializeAll(anyListOf(PurchaseDTO.class))).thenReturn(SERIALIZED_RESULT);
+        initUseCaseWithValidator(new ValidateAllValidator(), LocalDateTime.MIN);
+        when(detailsRepository.getAllFromPurchaseId(anyListOf(Long.class))).thenReturn(fakeDetailsDataset);
+        useCase.execute(onSuccessCallback);
+        verify(serializer).serializeAll(purchaseListCaptor.capture());
+        verify(onSuccessCallback).onSuccess(SERIALIZED_RESULT);
+
+        assertEquals(fakePurchaseWithDetailsDataset, purchaseListCaptor.getValue());
+    }
+
+    @Test
+    public void validateAfterExpiration_serializeOnlyLastOne() throws Exception {
+        LocalDateTime june2016 = LocalDateTime.of(2016, 6, 6, 1, 1);
+        initUseCaseWithValidator(new ValidateIfNotExpired(), june2016);
+        List<DetailsDTO> detailsFromValidPurchase = fakeDetailsDataset.subList(2,3);
+        when(detailsRepository.getAllFromPurchaseId(anyListOf(Long.class))).thenReturn(detailsFromValidPurchase);
+
 
         useCase.execute(onSuccessCallback);
-        verify(serializer).serializeAll(eq(fakePurchaseWithDetailsDataset));
+        verify(serializer).serializeAll(purchaseListCaptor.capture());
         verify(onSuccessCallback).onSuccess(SERIALIZED_RESULT);
+
+        List<PurchaseDTO> result = purchaseListCaptor.getValue();
+        assertEquals(1, result.size());
+        assertEquals(fakePurchaseWithDetailsDataset.get(2), result.get(0));
     }
 }
