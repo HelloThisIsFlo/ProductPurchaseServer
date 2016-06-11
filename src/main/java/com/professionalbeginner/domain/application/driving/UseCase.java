@@ -1,17 +1,31 @@
 package com.professionalbeginner.domain.application.driving;
 
-/**
- * Represent a UseCase.
- *
- * A UseCase is a set of actions in the domain reduced to one method.
- * The call to the method is asynchronous and the value is returned using the provided callback.
- *
- */
-public interface UseCase<T> {
+import com.professionalbeginner.domain.core.executor.UseCaseExecutor;
 
-    interface OnSuccessCallback<U> {
+public abstract class UseCase<T> {
+
+
+    private final UseCaseExecutor useCaseExecutor;
+
+    public UseCase(UseCaseExecutor useCaseExecutor) {
+        this.useCaseExecutor = useCaseExecutor;
+    }
+
+    public interface OnSuccessCallback<U> {
         void onSuccess(U result);
     }
 
-    void execute(OnSuccessCallback<T> onSuccessCallback);
+    public void execute(OnSuccessCallback<T> onSuccessCallback) {
+        useCaseExecutor.executeWhenResourceAvailable(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        doWork(onSuccessCallback);
+                    }
+                }
+        );
+    }
+
+    protected abstract void doWork(OnSuccessCallback<T> onSuccessCallback);
+
 }

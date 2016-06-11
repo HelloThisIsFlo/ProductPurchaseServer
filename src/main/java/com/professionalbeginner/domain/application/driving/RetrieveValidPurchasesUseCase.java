@@ -9,6 +9,7 @@ import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.domain.core.Details;
 import com.professionalbeginner.domain.core.Purchase;
+import com.professionalbeginner.domain.core.executor.UseCaseExecutor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  *
  */
-public class RetrieveValidPurchasesUseCase implements UseCase<String> {
+public class RetrieveValidPurchasesUseCase extends UseCase<String> {
 
     private final PurchaseRepository purchaseRepository;
     private final PurchaseMapper purchaseMapper;
@@ -29,11 +30,13 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
 
     private final LocalDateTime currentTime;
 
-    RetrieveValidPurchasesUseCase(PurchaseRepository purchaseRepository,
+    RetrieveValidPurchasesUseCase(UseCaseExecutor executor,
+                                  PurchaseRepository purchaseRepository,
                                   PurchaseMapper purchaseMapper,
                                   PurchaseDetailsRepository detailsRepository,
                                   DetailsMapper detailsMapper,
                                   PurchaseSerializer serializer, LocalDateTime currentTime) {
+        super(executor);
         this.purchaseRepository = checkNotNull(purchaseRepository);
         this.purchaseMapper = checkNotNull(purchaseMapper);
         this.detailsRepository = checkNotNull(detailsRepository);
@@ -43,7 +46,7 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
     }
 
     @Override
-    public void execute(OnSuccessCallback<String> onSuccessCallback) {
+    protected void doWork(UseCase.OnSuccessCallback<String> onSuccessCallback) {
         List<Purchase> allPurchase = getAllPurchases();
         List<Purchase> validPurchases = getValidPurchases(allPurchase);
         List<Long> validPurchaseIds = extractIds(validPurchases);

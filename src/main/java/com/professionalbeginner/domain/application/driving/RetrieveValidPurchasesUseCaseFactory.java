@@ -1,18 +1,13 @@
 package com.professionalbeginner.domain.application.driving;
 
-import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.DetailsMapper;
-import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.PurchaseMapper;
 import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
-import com.professionalbeginner.domain.core.Details;
-import com.professionalbeginner.domain.core.Purchase;
+import com.professionalbeginner.domain.core.executor.UseCaseExecutor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -21,17 +16,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class RetrieveValidPurchasesUseCaseFactory {
 
+    private final UseCaseExecutor useCaseExecutor;
     private final PurchaseRepository purchaseRepository;
     private final PurchaseMapper purchaseMapper;
     private final PurchaseDetailsRepository detailsRepository;
     private final DetailsMapper detailsMapper;
     private final PurchaseSerializer serializer;
 
-    public RetrieveValidPurchasesUseCaseFactory(PurchaseRepository purchaseRepository,
+    public RetrieveValidPurchasesUseCaseFactory(UseCaseExecutor useCaseExecutor,
+                                                PurchaseRepository purchaseRepository,
                                                 PurchaseMapper purchaseMapper,
                                                 PurchaseDetailsRepository detailsRepository,
                                                 DetailsMapper detailsMapper,
                                                 PurchaseSerializer serializer) {
+        this.useCaseExecutor = useCaseExecutor;
         this.purchaseRepository = checkNotNull(purchaseRepository);
         this.purchaseMapper = checkNotNull(purchaseMapper);
         this.detailsRepository = checkNotNull(detailsRepository);
@@ -41,6 +39,7 @@ public class RetrieveValidPurchasesUseCaseFactory {
 
     public RetrieveValidPurchasesUseCase make(LocalDateTime currentTime) {
         return new RetrieveValidPurchasesUseCase(
+                useCaseExecutor,
                 purchaseRepository,
                 purchaseMapper,
                 detailsRepository,

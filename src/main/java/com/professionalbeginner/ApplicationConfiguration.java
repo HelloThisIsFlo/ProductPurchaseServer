@@ -5,16 +5,18 @@ import com.professionalbeginner.domain.application.PurchaseMapper;
 import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
-import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCase;
 import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCaseFactory;
 import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.PurchaseFactory;
+import com.professionalbeginner.domain.core.executor.ExecutorServicesUseCaseExecutor;
+import com.professionalbeginner.domain.core.executor.UseCaseExecutor;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
-import com.professionalbeginner.domain.core.validator.ValidateAllValidator;
+import com.professionalbeginner.domain.core.validator.ValidateIfNotExpired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDateTime;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Configuration for the main application
@@ -44,19 +46,25 @@ public class ApplicationConfiguration {
 
     @Bean
     public PurchaseValidator getValidator() {
-        return new ValidateAllValidator();
+        return new ValidateIfNotExpired();
     }
 
 
     @Bean
+    public UseCaseExecutor getUseCaseExecutor() {
+        return new ExecutorServicesUseCaseExecutor(Executors.newCachedThreadPool());
+    }
+
+    @Bean
     public RetrieveValidPurchasesUseCaseFactory getRetrieveValidPurchasesUseCaseFactory(
+            UseCaseExecutor useCaseExecutor,
             PurchaseRepository purchaseRepository,
             PurchaseDetailsRepository detailsRepository,
             PurchaseMapper purchaseMapper,
             DetailsMapper detailsMapper,
             PurchaseSerializer serializer) {
         return new RetrieveValidPurchasesUseCaseFactory(
-                purchaseRepository,
+                useCaseExecutor, purchaseRepository,
                 purchaseMapper,
                 detailsRepository,
                 detailsMapper,

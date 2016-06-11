@@ -1,6 +1,5 @@
 package com.professionalbeginner.domain.application.driving;
 
-import com.professionalbeginner.data.detail.FakePurchaseDetailsRepository;
 import com.professionalbeginner.data.purchase.FakePurchaseRepository;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.DetailsMapper;
@@ -11,6 +10,9 @@ import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.PurchaseFactory;
+import com.professionalbeginner.domain.core.executor.ExecutorServicesUseCaseExecutor;
+import com.professionalbeginner.domain.core.executor.FakeMainThreadUseCaseExecutor;
+import com.professionalbeginner.domain.core.executor.UseCaseExecutor;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 import com.professionalbeginner.domain.core.validator.ValidateAllValidator;
 import com.professionalbeginner.domain.core.validator.ValidateIfNotExpired;
@@ -24,6 +26,7 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyListOf;
@@ -31,9 +34,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Florian on 09/06/16.
- */
 public class RetrieveValidPurchasesUseCaseTest {
 
     private final static String SERIALIZED_RESULT = "{HELLO}";
@@ -104,9 +104,10 @@ public class RetrieveValidPurchasesUseCaseTest {
         purchaseRepository = new FakePurchaseRepository(fakePurchaseDataset);
         detailsMapper = new DetailsMapper(detailsFactory);
         purchaseMapper = new PurchaseMapper(purchaseFactory, detailsMapper);
+        UseCaseExecutor useCaseExecutor = new FakeMainThreadUseCaseExecutor();
 
         RetrieveValidPurchasesUseCaseFactory useCaseFactory = new RetrieveValidPurchasesUseCaseFactory(
-                purchaseRepository,
+                useCaseExecutor, purchaseRepository,
                 purchaseMapper,
                 detailsRepository,
                 detailsMapper,
