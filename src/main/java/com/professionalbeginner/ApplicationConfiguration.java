@@ -11,8 +11,10 @@ import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.PurchaseFactory;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 import com.professionalbeginner.domain.core.validator.ValidateAllValidator;
+import com.professionalbeginner.domain.core.validator.ValidateIfNotExpired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
 
@@ -43,8 +45,15 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public PurchaseValidator getValidator() {
+    @Profile("dev")
+    public PurchaseValidator getValidator_dev() {
         return new ValidateAllValidator();
+    }
+
+    @Bean
+    @Profile("integration")
+    public PurchaseValidator getValidator_integration() {
+        return new ValidateIfNotExpired();
     }
 
 

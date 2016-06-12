@@ -8,6 +8,7 @@ import com.professionalbeginner.domain.application.driven.PurchaseDetailsReposit
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ import java.util.List;
 public class DataConfiguration {
 
     @Bean
-    public PurchaseDetailsRepository getDetailsRepository() {
+    @Profile("integration")
+    public PurchaseDetailsRepository getDetailsRepository_integration() {
         List<DetailsDTO> fakeDataset = new ArrayList<>();
         fakeDataset.add(new DetailsDTO(1, "hello", 1, 1));
         fakeDataset.add(new DetailsDTO(2, "hello2", 12, 12));
@@ -27,7 +29,8 @@ public class DataConfiguration {
     }
 
     @Bean
-    public PurchaseRepository getPurchaseRepository() {
+    @Profile("integration")
+    public PurchaseRepository getPurchaseRepository_integrations() {
         List<PurchaseDTO> fakeDataset = new ArrayList<>();
 
         LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);

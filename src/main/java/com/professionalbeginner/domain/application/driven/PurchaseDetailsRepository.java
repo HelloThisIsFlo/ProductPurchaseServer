@@ -11,6 +11,5 @@ public interface PurchaseDetailsRepository {
      * @param purchaseIds Ids to get the details of.
      * @return List of all details, IN SAME ORDER
      */
-    // TODO: 09/06/16 translate 'in same order' into test
     List<DetailsDTO> getAllFromPurchaseId(List<Long> purchaseIds);
 }
