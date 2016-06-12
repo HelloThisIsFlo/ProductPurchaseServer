@@ -53,8 +53,6 @@ public class RetrieveValidPurchasesUseCaseTest {
 
     @Mock
     PurchaseSerializer serializer;
-    @Mock
-    UseCase.OnSuccessCallback<String> onSuccessCallback;
     @Captor
     ArgumentCaptor<List<PurchaseDTO>> purchaseListCaptor;
 
@@ -121,10 +119,10 @@ public class RetrieveValidPurchasesUseCaseTest {
     public void validateAll_serializeAll() throws Exception {
         initUseCaseWithValidator(new ValidateAllValidator(), LocalDateTime.MIN);
         when(detailsRepository.getAllFromPurchaseId(anyListOf(Long.class))).thenReturn(fakeDetailsDataset);
-        useCase.execute(onSuccessCallback);
+        String result = useCase.execute();
         verify(serializer).serializeAll(purchaseListCaptor.capture());
-        verify(onSuccessCallback).onSuccess(SERIALIZED_RESULT);
 
+        assertEquals(result, SERIALIZED_RESULT);
         assertEquals(fakePurchaseWithDetailsDataset, purchaseListCaptor.getValue());
     }
 
@@ -136,9 +134,9 @@ public class RetrieveValidPurchasesUseCaseTest {
         when(detailsRepository.getAllFromPurchaseId(anyListOf(Long.class))).thenReturn(detailsFromValidPurchase);
 
 
-        useCase.execute(onSuccessCallback);
+        String serializedResult = useCase.execute();
         verify(serializer).serializeAll(purchaseListCaptor.capture());
-        verify(onSuccessCallback).onSuccess(SERIALIZED_RESULT);
+        assertEquals(serializedResult, SERIALIZED_RESULT);
 
         List<PurchaseDTO> result = purchaseListCaptor.getValue();
         assertEquals(1, result.size());

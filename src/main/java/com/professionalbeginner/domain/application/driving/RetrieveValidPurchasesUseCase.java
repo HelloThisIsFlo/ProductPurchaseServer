@@ -43,7 +43,7 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
     }
 
     @Override
-    public void execute(OnSuccessCallback<String> onSuccessCallback) {
+    public String execute() {
         List<Purchase> allPurchase = getAllPurchases();
         List<Purchase> validPurchases = getValidPurchases(allPurchase);
         List<Long> validPurchaseIds = extractIds(validPurchases);
@@ -52,7 +52,7 @@ public class RetrieveValidPurchasesUseCase implements UseCase<String> {
         List<Purchase> result = combinePurchaseWithCorrespondingDetails(validPurchases, validDetails);
         String resultJson = serializePurchases(result);
 
-        onSuccessCallback.onSuccess(resultJson);
+        return resultJson;
     }
 
     private String serializePurchases(List<Purchase> toSerialize) {

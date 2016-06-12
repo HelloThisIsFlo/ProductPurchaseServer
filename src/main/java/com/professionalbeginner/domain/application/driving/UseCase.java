@@ -9,9 +9,5 @@ package com.professionalbeginner.domain.application.driving;
  */
 public interface UseCase<T> {
 
-    interface OnSuccessCallback<U> {
-        void onSuccess(U result);
-    }
-
-    void execute(OnSuccessCallback<T> onSuccessCallback);
+    T execute();
 }
