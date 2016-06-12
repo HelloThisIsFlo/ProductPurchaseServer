@@ -1,6 +1,10 @@
 package com.professionalbeginner.integration;
 
 import com.professionalbeginner.ProductPurchaseServerApplication;
+import com.professionalbeginner.domain.application.DetailsDTO;
+import com.professionalbeginner.domain.application.PurchaseDTO;
+import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCase;
+import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCaseFactory;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 import com.professionalbeginner.domain.core.validator.ValidateIfNotExpired;
 import org.junit.Test;
@@ -19,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 @SpringApplicationConfiguration(classes = ProductPurchaseServerApplication.class)
 @WebAppConfiguration
 @ActiveProfiles("integration")
-public class MainIntegrationTest {
+public class ContextIntegrationTest {
 
     @Autowired
     PurchaseValidator validator;
@@ -32,12 +36,5 @@ public class MainIntegrationTest {
     public void testProfiles() {
         String validatorClassName = validator.getClass().getSimpleName();
         assertEquals(ValidateIfNotExpired.class.getSimpleName(), validatorClassName);
-    }
-
-    @Test
-    public void integrationEnvironment_validPurchase_onlyLastOne() throws Exception {
-        LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 2);
-
-
     }
 }

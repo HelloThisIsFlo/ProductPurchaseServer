@@ -16,9 +16,6 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- *
- */
 public class RetrieveValidPurchasesUseCase implements UseCase<String> {
 
     private final PurchaseRepository purchaseRepository;

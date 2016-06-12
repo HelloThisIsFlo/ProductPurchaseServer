@@ -31,9 +31,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Florian on 09/06/16.
- */
 public class RetrieveValidPurchasesUseCaseTest {
 
     private final static String SERIALIZED_RESULT = "{HELLO}";

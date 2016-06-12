@@ -2,17 +2,17 @@ package com.professionalbeginner;
 
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.serialisation.FakeSerializer;
+import com.professionalbeginner.serialisation.ToStringMockSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
-/**
- * Created by Florian on 09/06/16.
- */
 @Configuration
 public class SerializationConfiguration {
 
     @Bean
+    @Profile("integration")
     public PurchaseSerializer getSerializer() {
-        return new FakeSerializer();
+        return new ToStringMockSerializer();
     }
 }
