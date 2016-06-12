@@ -23,7 +23,13 @@ public class PurchaseMapper {
     }
 
     public Purchase transform(PurchaseDTO purchaseDTO) {
-        Details details = detailsMapper.transform(purchaseDTO.purchaseDetails);
+
+        Details details;
+        if (purchaseDTO.purchaseDetails != null) {
+            details = detailsMapper.transform(purchaseDTO.purchaseDetails);
+        } else {
+            details = Details.NULL;
+        }
         return factory.make(purchaseDTO.id, purchaseDTO.productType, purchaseDTO.expires, details);
     }
 }

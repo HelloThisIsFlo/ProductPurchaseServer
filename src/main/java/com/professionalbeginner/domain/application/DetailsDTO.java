@@ -17,7 +17,7 @@ public class DetailsDTO {
 
     public DetailsDTO(long id, String description, int quantity, double value) {
         this.id = id;
-        this.description = checkNotNull(description);
+        this.description = description;
         this.quantity = quantity;
         this.value = value;
     }

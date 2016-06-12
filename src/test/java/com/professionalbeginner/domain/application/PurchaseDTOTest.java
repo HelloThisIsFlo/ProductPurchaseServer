@@ -45,27 +45,4 @@ public class PurchaseDTOTest {
                 .testEquals();
     }
 
-    @Test
-    public void nullFields_throwException() throws Exception {
-        try {
-            new PurchaseDTO(1, null, LocalDateTime.MAX, details);
-            fail("Should throw exception when 'productType' field is null");
-        } catch (NullPointerException e) {
-            // Expected, do nothing
-        }
-
-        try {
-            new PurchaseDTO(1, "type", null, details);
-            fail("Should throw exception when 'expires' field is null");
-        } catch (NullPointerException e) {
-            // Expected, do nothing
-        }
-
-        try {
-            new PurchaseDTO(1, "type", LocalDateTime.MAX, null);
-            fail("Should throw exception when 'purchaseDetail' field is null");
-        } catch (NullPointerException e) {
-            // Expected, do nothing
-        }
-    }
 }

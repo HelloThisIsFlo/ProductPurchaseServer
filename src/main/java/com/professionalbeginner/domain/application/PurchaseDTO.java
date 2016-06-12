@@ -16,9 +16,9 @@ public class PurchaseDTO {
 
     public PurchaseDTO(long id, String productType, LocalDateTime expires, DetailsDTO purchaseDetails) {
         this.id = id;
-        this.productType = checkNotNull(productType);
-        this.expires = checkNotNull(expires);
-        this.purchaseDetails = checkNotNull(purchaseDetails);
+        this.productType = productType;
+        this.expires = expires;
+        this.purchaseDetails = purchaseDetails;
     }
 
     @Override

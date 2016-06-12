@@ -37,8 +37,4 @@ public class DetailsDTOTest {
                 .testEquals();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void nullDescriptionField_throwException() throws Exception {
-        new DetailsDTO(1, null, 2, 3);
-    }
 }

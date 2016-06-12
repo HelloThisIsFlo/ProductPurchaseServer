@@ -15,14 +15,14 @@ import static org.junit.Assert.assertTrue;
 
 public class MockPurchaseRepositoryTest {
 
-    PurchaseRepository repository;
+    private PurchaseRepository repository;
 
-    PurchaseDTO purchaseWithNoId1;
-    PurchaseDTO purchaseWithNoId2;
-    PurchaseDTO purchase1;
-    PurchaseDTO purchase2;
-    PurchaseDTO purchase3;
-    PurchaseDTO purchase4;
+    private PurchaseDTO purchaseWithNoId1;
+    private PurchaseDTO purchaseWithNoId2;
+    private PurchaseDTO purchase1;
+    private PurchaseDTO purchase2;
+    private PurchaseDTO purchase3;
+    private PurchaseDTO purchase4;
 
     @Before
     public void setUp() throws Exception {
