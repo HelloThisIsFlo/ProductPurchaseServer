@@ -9,4 +9,11 @@ import java.util.List;
  */
 public interface PurchaseRepository {
     List<PurchaseDTO> getAll();
+
+    /**
+     * Saves or update an existing Purchase DTO
+     * @param toSave Purchase DTO to be saved, or updated if id already present
+     * @return id of the saved PurchaseDTO
+     */
+    Long save(PurchaseDTO toSave);
 }
