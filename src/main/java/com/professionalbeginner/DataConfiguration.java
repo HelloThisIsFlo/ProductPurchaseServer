@@ -23,36 +23,13 @@ import java.util.List;
 public class DataConfiguration {
 
     @Bean
-    @Profile("integration")
     public DetailsRepository getDetailsRepository_integration(JpaDetailRepository jpaRepo, JpaDetailMapper jpaMapper) {
         return new JpaInMemoryDetailsRepository(jpaRepo, jpaMapper);
     }
 
     @Bean
-    @Profile("integration")
     public PurchaseRepository getPurchaseRepository_integration(JpaPurchaseRepository jpaRepo, JpaPurchaseMapper jpaMapper) {
         return new JpaInMemoryPurchaseRepository(jpaRepo, jpaMapper);
     }
-
-//    @Bean
-//    @Profile("integration")
-//    public PurchaseRepository getPurchaseRepository_integration() {
-//        List<PurchaseDTO> fakeDataset = new ArrayList<>();
-//
-//        LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);
-//        LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 2);
-//        LocalDateTime dateTime3 = LocalDateTime.of(2016, 1, 1, 1, 3);
-//
-//        PurchaseDTO purchaseDTO1 = new PurchaseDTO(1, "type 1", dateTime1, DetailsDTO.NULL);
-//        PurchaseDTO purchaseDTO2 = new PurchaseDTO(2, "type 2", dateTime2, DetailsDTO.NULL);
-//        PurchaseDTO purchaseDTO3 = new PurchaseDTO(3, "type 3", dateTime3, DetailsDTO.NULL);
-//
-//        fakeDataset.add(purchaseDTO1);
-//        fakeDataset.add(purchaseDTO2);
-//        fakeDataset.add(purchaseDTO3);
-//
-//        return new FakePurchaseRepository(fakeDataset);
-//    }
-
 
 }

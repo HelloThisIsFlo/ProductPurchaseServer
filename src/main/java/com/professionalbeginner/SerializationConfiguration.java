@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Profile;
 public class SerializationConfiguration {
 
     @Bean
-    @Profile("integration")
     public PurchaseSerializer getSerializer() {
         return new ToStringMockSerializer();
     }

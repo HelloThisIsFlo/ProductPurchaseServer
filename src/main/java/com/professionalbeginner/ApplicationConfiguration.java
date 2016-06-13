@@ -43,14 +43,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    @Profile("dev")
-    public PurchaseValidator getValidator_dev() {
-        return new ValidateAllValidator();
-    }
-
-    @Bean
-    @Profile("integration")
-    public PurchaseValidator getValidator_integration() {
+    public PurchaseValidator getValidator() {
         return new ValidateIfNotExpired();
     }
 
