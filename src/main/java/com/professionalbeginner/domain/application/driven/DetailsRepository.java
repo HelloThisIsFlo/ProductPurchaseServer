@@ -4,7 +4,7 @@ import com.professionalbeginner.domain.application.DetailsDTO;
 
 import java.util.List;
 
-public interface PurchaseDetailsRepository {
+public interface DetailsRepository {
     /**
      * Returns the list of DetailsDTO for the given purchase ids.
      *

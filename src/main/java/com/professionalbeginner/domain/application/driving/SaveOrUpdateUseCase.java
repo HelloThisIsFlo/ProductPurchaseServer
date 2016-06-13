@@ -1,10 +1,9 @@
 package com.professionalbeginner.domain.application.driving;
 
-import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.DetailsMapper;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.PurchaseMapper;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.core.Details;
 import com.professionalbeginner.domain.core.Purchase;
@@ -20,12 +19,12 @@ public class SaveOrUpdateUseCase implements UseCase<Long> {
     private final PurchaseDTO toSaveOrUpdate;
 
     private final PurchaseRepository purchaseRepository;
-    private final PurchaseDetailsRepository detailsRepository;
+    private final DetailsRepository detailsRepository;
     private final PurchaseMapper purchaseMapper;
     private final DetailsMapper detailsMapper;
 
     public SaveOrUpdateUseCase(PurchaseDTO toSaveOrUpdate, PurchaseRepository purchaseRepository,
-                               PurchaseDetailsRepository detailsRepository,
+                               DetailsRepository detailsRepository,
                                PurchaseMapper purchaseMapper, DetailsMapper detailsMapper) {
         this.toSaveOrUpdate = toSaveOrUpdate;
         this.purchaseRepository = purchaseRepository;

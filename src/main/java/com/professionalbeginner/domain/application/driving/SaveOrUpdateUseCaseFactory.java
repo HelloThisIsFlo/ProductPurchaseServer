@@ -3,17 +3,17 @@ package com.professionalbeginner.domain.application.driving;
 import com.professionalbeginner.domain.application.DetailsMapper;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.PurchaseMapper;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 
 public class SaveOrUpdateUseCaseFactory {
 
     private final PurchaseRepository purchaseRepository;
-    private final PurchaseDetailsRepository detailsRepository;
+    private final DetailsRepository detailsRepository;
     private final PurchaseMapper purchaseMapper;
     private final DetailsMapper detailsMapper;
 
-    public SaveOrUpdateUseCaseFactory(PurchaseRepository purchaseRepository, PurchaseDetailsRepository detailsRepository,
+    public SaveOrUpdateUseCaseFactory(PurchaseRepository purchaseRepository, DetailsRepository detailsRepository,
                                       PurchaseMapper purchaseMapper, DetailsMapper detailsMapper) {
         this.purchaseRepository = purchaseRepository;
         this.detailsRepository = detailsRepository;

@@ -4,13 +4,12 @@ import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.DetailsMapper;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.PurchaseMapper;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.PurchaseFactory;
 import com.professionalbeginner.domain.core.validator.ValidateAllValidator;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -29,7 +28,7 @@ public class SaveOrUpdateUseCaseTest {
     @Mock
     PurchaseRepository purchaseRepository;
     @Mock
-    PurchaseDetailsRepository detailsRepository;
+    DetailsRepository detailsRepository;
 
     @Before
     public void setUp() throws Exception {

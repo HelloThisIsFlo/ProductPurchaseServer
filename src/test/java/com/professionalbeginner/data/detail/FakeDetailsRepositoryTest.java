@@ -1,7 +1,7 @@
 package com.professionalbeginner.data.detail;
 
 import com.professionalbeginner.domain.application.DetailsDTO;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,13 +12,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * This is a test for the FakePurchaseDetailsRepository TestDouble.
+ * This is a test for the FakeDetailsRepository TestDouble.
  * The fake repository arbitrarily returns a list with more than 2 non null elements.
  */
-public class FakePurchaseDetailsRepositoryTest {
+public class FakeDetailsRepositoryTest {
 
     private static final List<Long> EMPTY_LIST_ID = new ArrayList<>();
-    private PurchaseDetailsRepository fakePurchaseDetailsRepo;
+    private DetailsRepository fakePurchaseDetailsRepo;
     private List<DetailsDTO> fakeDataset;
 
     @Before
@@ -33,7 +33,7 @@ public class FakePurchaseDetailsRepositoryTest {
         fakeDataset.add(detailsDTO2);
         fakeDataset.add(detailsDTO3);
 
-        fakePurchaseDetailsRepo = new FakePurchaseDetailsRepository(fakeDataset);
+        fakePurchaseDetailsRepo = new FakeDetailsRepository(fakeDataset);
     }
 
 

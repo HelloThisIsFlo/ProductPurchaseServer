@@ -1,10 +1,10 @@
 package com.professionalbeginner;
 
-import com.professionalbeginner.data.detail.FakePurchaseDetailsRepository;
+import com.professionalbeginner.data.detail.FakeDetailsRepository;
 import com.professionalbeginner.data.purchase.FakePurchaseRepository;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.PurchaseDTO;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +19,13 @@ public class DataConfiguration {
 
     @Bean
     @Profile("integration")
-    public PurchaseDetailsRepository getDetailsRepository_integration() {
+    public DetailsRepository getDetailsRepository_integration() {
         List<DetailsDTO> fakeDataset = new ArrayList<>();
         fakeDataset.add(new DetailsDTO(1, "hello", 1, 1));
         fakeDataset.add(new DetailsDTO(2, "hello2", 12, 12));
         fakeDataset.add(new DetailsDTO(3, "hello3", 13, 13));
 
-        return new FakePurchaseDetailsRepository(fakeDataset);
+        return new FakeDetailsRepository(fakeDataset);
     }
 
     @Bean

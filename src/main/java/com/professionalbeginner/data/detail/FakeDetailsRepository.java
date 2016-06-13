@@ -1,17 +1,17 @@
 package com.professionalbeginner.data.detail;
 
 import com.professionalbeginner.domain.application.DetailsDTO;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FakePurchaseDetailsRepository implements PurchaseDetailsRepository {
+public class FakeDetailsRepository implements DetailsRepository {
 
 
     private List<DetailsDTO> fakeDataset;
 
-    public FakePurchaseDetailsRepository(List<DetailsDTO> fakeDataset) {
+    public FakeDetailsRepository(List<DetailsDTO> fakeDataset) {
         this.fakeDataset = fakeDataset;
     }
 

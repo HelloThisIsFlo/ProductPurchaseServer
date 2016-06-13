@@ -1,12 +1,11 @@
 package com.professionalbeginner.domain.application.driving;
 
-import com.professionalbeginner.data.detail.FakePurchaseDetailsRepository;
 import com.professionalbeginner.data.purchase.FakePurchaseRepository;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.DetailsMapper;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.PurchaseMapper;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.domain.core.DetailsFactory;
@@ -39,7 +38,7 @@ public class RetrieveValidPurchasesUseCaseTest {
 
     PurchaseRepository purchaseRepository;
     @Mock
-    PurchaseDetailsRepository detailsRepository;
+    DetailsRepository detailsRepository;
     PurchaseMapper purchaseMapper;
     DetailsMapper detailsMapper;
     PurchaseValidator validator;

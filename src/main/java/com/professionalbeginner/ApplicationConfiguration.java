@@ -2,10 +2,9 @@ package com.professionalbeginner;
 
 import com.professionalbeginner.domain.application.DetailsMapper;
 import com.professionalbeginner.domain.application.PurchaseMapper;
-import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
+import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
-import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCase;
 import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCaseFactory;
 import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.PurchaseFactory;
@@ -15,8 +14,6 @@ import com.professionalbeginner.domain.core.validator.ValidateIfNotExpired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import java.time.LocalDateTime;
 
 /**
  * Configuration for the main application
@@ -60,7 +57,7 @@ public class ApplicationConfiguration {
     @Bean
     public RetrieveValidPurchasesUseCaseFactory getRetrieveValidPurchasesUseCaseFactory(
             PurchaseRepository purchaseRepository,
-            PurchaseDetailsRepository detailsRepository,
+            DetailsRepository detailsRepository,
             PurchaseMapper purchaseMapper,
             DetailsMapper detailsMapper,
             PurchaseSerializer serializer) {
