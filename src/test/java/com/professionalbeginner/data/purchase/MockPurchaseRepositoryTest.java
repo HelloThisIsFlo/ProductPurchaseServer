@@ -38,24 +38,24 @@ public class MockPurchaseRepositoryTest {
 
     @Test
     public void saveNull_returnMinus1() throws Exception {
-        assertEquals(new Long(-1), repository.save(null));
+        assertEquals(new Long(-1), repository.saveOrUpdate(null));
     }
 
     @Test
     public void saveNotNull_returnId() throws Exception {
-        long id = repository.save(purchase1);
+        long id = repository.saveOrUpdate(purchase1);
         assertTrue("Should return valid id but returned: " + id, id > 0);
     }
 
     @Test
     public void purchaseWithId0OrLess_attributeNewId() throws Exception {
-        long id = repository.save(purchaseWithNoId1);
+        long id = repository.saveOrUpdate(purchaseWithNoId1);
         assertTrue("Should return valid id but returned: " + id, id > 0);
     }
 
     @Test
     public void savePurchase_getAllReturnPurchase_WithId() throws Exception {
-        long id = repository.save(purchase1);
+        long id = repository.saveOrUpdate(purchase1);
         List<PurchaseDTO> fromRepo = repository.getAll();
 
         assertEquals(1, fromRepo.size());
@@ -67,9 +67,9 @@ public class MockPurchaseRepositoryTest {
 
     @Test
     public void saveMultiplePurchase_getAllReturnPurchase_WithId() throws Exception {
-        long id1 = repository.save(purchase1);
-        long id2 = repository.save(purchase2);
-        long id3 = repository.save(purchase3);
+        long id1 = repository.saveOrUpdate(purchase1);
+        long id2 = repository.saveOrUpdate(purchase2);
+        long id3 = repository.saveOrUpdate(purchase3);
 
         List<PurchaseDTO> expectedList = new ArrayList<>();
         purchase1 = updateWithId(purchase1, id1);
@@ -86,10 +86,10 @@ public class MockPurchaseRepositoryTest {
 
     @Test
     public void saveMultiplePurchaseWithNoId_getAllReturnPurchase_WithId() throws Exception {
-        long id1 = repository.save(purchase1);
-        long id2 = repository.save(purchaseWithNoId1);
-        long id3 = repository.save(purchaseWithNoId2);
-        long id4 = repository.save(purchase4);
+        long id1 = repository.saveOrUpdate(purchase1);
+        long id2 = repository.saveOrUpdate(purchaseWithNoId1);
+        long id3 = repository.saveOrUpdate(purchaseWithNoId2);
+        long id4 = repository.saveOrUpdate(purchase4);
 
         List<PurchaseDTO> expectedList = new ArrayList<>();
         purchase1 = updateWithId(purchase1, id1);
@@ -109,14 +109,14 @@ public class MockPurchaseRepositoryTest {
 
     @Test
     public void updateExistingPurchase() throws Exception {
-        long id1 = repository.save(purchase1);
-        repository.save(purchase1);
+        long id1 = repository.saveOrUpdate(purchase1);
+        repository.saveOrUpdate(purchase1);
 
         assertEquals(purchase1, repository.getAll().get(0));
 
         // Update
         purchase2 = updateWithId(purchase2, id1); //set existing id on purchase 2
-        repository.save(purchase2); // Save purchase2 in lieu of existing purchase1
+        repository.saveOrUpdate(purchase2); // Save purchase2 in lieu of existing purchase1
 
         assertEquals(purchase2, repository.getAll().get(0));
     }

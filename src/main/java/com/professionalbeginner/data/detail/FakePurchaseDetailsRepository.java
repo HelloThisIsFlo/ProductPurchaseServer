@@ -2,7 +2,6 @@ package com.professionalbeginner.data.detail;
 
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.driven.PurchaseDetailsRepository;
-import com.professionalbeginner.domain.core.Details;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +34,10 @@ public class FakePurchaseDetailsRepository implements PurchaseDetailsRepository 
             }
         }
         return DetailsDTO.NULL;
+    }
+
+    @Override
+    public void saveOrUpdate(DetailsDTO toSave) {
+        throw new RuntimeException("Not implemented, use mock implementation instead");
     }
 }

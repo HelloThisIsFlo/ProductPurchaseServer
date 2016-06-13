@@ -22,7 +22,7 @@ public class FakePurchaseRepository implements PurchaseRepository {
     }
 
     @Override
-    public Long save(PurchaseDTO toSave) {
+    public Long saveOrUpdate(PurchaseDTO toSave) {
         throw new RuntimeException("Not implemented");
     }
 }

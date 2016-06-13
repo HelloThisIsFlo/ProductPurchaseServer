@@ -20,7 +20,7 @@ public class MockPurchaseRepository implements PurchaseRepository {
     }
 
     @Override
-    public Long save(PurchaseDTO toSave) {
+    public Long saveOrUpdate(PurchaseDTO toSave) {
         if (toSave == null) {
             return -1L;
         }

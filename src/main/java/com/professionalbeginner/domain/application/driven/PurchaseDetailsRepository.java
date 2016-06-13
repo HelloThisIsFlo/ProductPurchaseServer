@@ -12,4 +12,13 @@ public interface PurchaseDetailsRepository {
      * @return List of all details, IN SAME ORDER
      */
     List<DetailsDTO> getAllFromPurchaseId(List<Long> purchaseIds);
+
+    /**
+     * Saves or update an existing Details DTO.
+     * DetailsDTO needs to provide a valid Id.
+     *
+     * @param toSave Details DTO to be saved, or updated if id already present
+     * @throws InvalidIdException If DetailsDTO id is invalid (<=0)
+     */
+    void saveOrUpdate(DetailsDTO toSave);
 }
