@@ -96,8 +96,7 @@ public class SaveOrUpdateUseCaseTest {
     }
 
     @Test
-    @Ignore
-    public void ProductDetailHasDifferentId_OverrideWithPurchaseId() throws Exception {
+    public void ProductDetailHasDifferentId_OverrideDetailIdWithPurchaseId() throws Exception {
         long expectedId = 1;
         long differentId = 2;
 
@@ -116,11 +115,28 @@ public class SaveOrUpdateUseCaseTest {
         // Save the Details separately
         verify(detailsRepository).saveOrUpdate(detailsWithCorrectId);
         assertEquals(fromUseCaseId, expectedId);
-
     }
 
-    /*
-    todo
-     - No Purchase Id --------> Detail id = resulting purchase id (after save)
-     */
+    @Test
+    public void ProductDetailHasNoId_SetDetailIdWithPurchaseIdGeneratedFromRepo() throws Exception {
+        long expectedId = 5;
+        long noId = -1;
+
+        DetailsDTO details = new DetailsDTO(123324L, "description", 1, 38.2);
+        PurchaseDTO withNoId = new PurchaseDTO(noId, "type", LocalDateTime.MIN, details);
+
+        DetailsDTO detailsWithNewId = new DetailsDTO(expectedId, "description", 1, 38.2);
+        PurchaseDTO withoutDetails = new PurchaseDTO(noId, "type", LocalDateTime.MIN, DetailsDTO.NULL);
+
+        SaveOrUpdateUseCase useCase = useCaseFactory.make(withNoId);
+        when(purchaseRepository.saveOrUpdate(any())).thenReturn(expectedId);
+
+        long fromUseCaseId = useCase.execute();
+
+        // Save the Purchase without the Details
+        verify(purchaseRepository).saveOrUpdate(withoutDetails);
+        // Save the Details separately
+        verify(detailsRepository).saveOrUpdate(detailsWithNewId);
+        assertEquals(fromUseCaseId, expectedId);
+    }
 }

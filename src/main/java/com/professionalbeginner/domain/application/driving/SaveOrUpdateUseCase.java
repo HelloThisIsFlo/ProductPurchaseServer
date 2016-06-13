@@ -47,9 +47,13 @@ public class SaveOrUpdateUseCase implements UseCase<Long> {
         Details details = purchase.getPurchaseDetails();
         purchase.setPurchaseDetails(Details.NULL);
 
-        // Save to repositories
+        // Save purchase
         PurchaseDTO toSaveDto = purchaseMapper.transform(purchase);
         long id = purchaseRepository.saveOrUpdate(toSaveDto);
+
+        // Update id on details
+        details.setId(id);
+
         detailsRepository.saveOrUpdate(detailsMapper.transform(details));
 
         return id;
