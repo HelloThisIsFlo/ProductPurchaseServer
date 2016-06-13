@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -46,8 +47,8 @@ public class PurchaseTest {
                         factory.make(1, "type", LocalDateTime.MAX, details)
                 )
                 .addEqualityGroup(
-                        factory.make(2, "type", LocalDateTime.MAX, details),
-                        factory.make(2, "type", LocalDateTime.MAX, details)
+                        factory.make(2, "type", LocalDateTime.MAX, otherDetails),
+                        factory.make(2, "type", LocalDateTime.MAX, otherDetails)
                 )
                 .addEqualityGroup(
                         factory.make(1, "other", LocalDateTime.MAX, details),
@@ -56,10 +57,6 @@ public class PurchaseTest {
                 .addEqualityGroup(
                         factory.make(1, "type", LocalDateTime.MIN, details),
                         factory.make(1, "type", LocalDateTime.MIN, details)
-                )
-                .addEqualityGroup(
-                        factory.make(1, "type", LocalDateTime.MAX, otherDetails),
-                        factory.make(1, "type", LocalDateTime.MAX, otherDetails)
                 )
                 .addEqualityGroup(
                         Purchase.NULL,
@@ -94,5 +91,23 @@ public class PurchaseTest {
         purchase.validate(currentTime);
 
         verify(validator).validForCurrentTime(eq(purchase), eq(currentTime));
+    }
+
+    @Test
+    public void detailId_mustBeSimilarTo_PurchaseId() throws Exception {
+        try {
+            factory.make(1, "type", LocalDateTime.MIN, detailsFactory.make(2, "", 1, 1));
+            fail("Different PurchaseId and DetailsId should throw exception");
+        } catch (RuntimeException e) {
+            //expected do nothing
+        }
+
+        //Do not throw exception
+        try {
+            factory.make(2, "asd", LocalDateTime.MIN, Details.NULL);
+        } catch (RuntimeException e) {
+            fail("Should not check Id on NULL detail");
+        }
+
     }
 }

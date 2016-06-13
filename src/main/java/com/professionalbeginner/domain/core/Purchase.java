@@ -67,6 +67,15 @@ public class Purchase {
         if (this.purchaseDetails == null) {
             this.purchaseDetails = Details.NULL;
         }
+        ensureIdMatch();
+    }
+
+    private void ensureIdMatch() {
+        if (!purchaseDetails.equals(Details.NULL)) {
+            if (purchaseDetails.getId() != this.id) {
+                throw new IllegalStateException("Details should have the same Id as associated Purchase");
+            }
+        }
     }
 
     @Override
