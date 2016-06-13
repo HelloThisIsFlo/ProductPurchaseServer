@@ -14,7 +14,9 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Florian on 13/06/16.
@@ -27,8 +29,10 @@ public class JpaInMemoryPurchaseRepositoryTest {
     PurchaseRepository repository;
 
     private PurchaseDTO purchaseWithNoId1;
+    private PurchaseJPA purchaseWithId1Jpa;
     private PurchaseDTO purchaseWithNoId2;
     private PurchaseDTO purchase1;
+    private PurchaseJPA purchase1Jpa;
     private PurchaseDTO purchase2;
     private PurchaseDTO purchase3;
     private PurchaseDTO purchase4;
@@ -45,8 +49,10 @@ public class JpaInMemoryPurchaseRepositoryTest {
         mapper = new JpaPurchaseMapper();
 
         purchaseWithNoId1 = new PurchaseDTO(0, "type with no id 1", LocalDateTime.MIN, DetailsDTO.NULL);
+        purchaseWithId1Jpa = new PurchaseJPA(1, "type with no id 1", LocalDateTime.MIN);
         purchaseWithNoId2 = new PurchaseDTO(0, "type with no id 2", LocalDateTime.MIN, DetailsDTO.NULL);
         purchase1 = new PurchaseDTO(1, "type 1", LocalDateTime.MIN, DetailsDTO.NULL);
+        purchase1Jpa = new PurchaseJPA(1, "type 1", LocalDateTime.MIN);
         purchase2 = new PurchaseDTO(2, "type 2", LocalDateTime.MIN, DetailsDTO.NULL);
         purchase3 = new PurchaseDTO(3, "type 3", LocalDateTime.MIN, DetailsDTO.NULL);
         purchase4 = new PurchaseDTO(4, "type 4", LocalDateTime.MIN, DetailsDTO.NULL);
@@ -61,6 +67,7 @@ public class JpaInMemoryPurchaseRepositoryTest {
 
     @Test
     public void saveNotNull_returnId() throws Exception {
+        when(jpaRepo.save(any(PurchaseJPA.class))).thenReturn(purchase1Jpa);
         long id = repository.saveOrUpdate(purchase1);
 
         verify(jpaRepo).save(purchaseJPAArgumentCaptor.capture());
@@ -74,6 +81,7 @@ public class JpaInMemoryPurchaseRepositoryTest {
 
     @Test
     public void purchaseWithId0OrLess_attributeNewId() throws Exception {
+        when(jpaRepo.save(any(PurchaseJPA.class))).thenReturn(purchaseWithId1Jpa);
         long id = repository.saveOrUpdate(purchaseWithNoId1);
 
         verify(jpaRepo).save(purchaseJPAArgumentCaptor.capture());
@@ -81,9 +89,8 @@ public class JpaInMemoryPurchaseRepositoryTest {
         PurchaseJPA saved = purchaseJPAArgumentCaptor.getValue();
         PurchaseDTO savedAsDto = mapper.transform(saved);
 
-        PurchaseDTO expected = new PurchaseDTO(id, purchaseWithNoId1.productType,
-                purchaseWithNoId1.expires, purchaseWithNoId1.purchaseDetails);
-        assertEquals(expected, savedAsDto);
+        assertEquals(purchaseWithNoId1, savedAsDto);
+        assertNotEquals(id, purchaseWithNoId1.id);
         assertTrue("Should return valid id but returned: " + id, id > 0);
     }
 }

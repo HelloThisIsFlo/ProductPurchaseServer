@@ -1,5 +1,6 @@
 package com.professionalbeginner.data.detail.jpa;
 
+import com.professionalbeginner.data.purchase.jpa.PurchaseJPA;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import org.junit.Before;
@@ -68,7 +69,8 @@ public class JpaInMemoryDetailsRepositoryTest {
 
     @Test
     public void updateExisting_eraseValueInJpa_saveNewValue() throws Exception {
-        long existingId = fakeDatasetJPA.get(0).getDomainId();
+        DetailJPA existingRecord = fakeDatasetJPA.get(0);
+        long existingId = existingRecord.getDomainId();
 
         detailsRepository.saveOrUpdate(toSave);
 
@@ -77,7 +79,7 @@ public class JpaInMemoryDetailsRepositoryTest {
         detailsRepository.saveOrUpdate(newValue);
 
         verify(jpaDetailRepository).findByDomainId(existingId);
-        verify(jpaDetailRepository).delete(existingId);
+        verify(jpaDetailRepository).delete(existingRecord);
         verify(jpaDetailRepository).save(newValueJpa);
     }
 

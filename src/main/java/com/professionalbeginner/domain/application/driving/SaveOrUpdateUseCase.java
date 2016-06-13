@@ -54,7 +54,6 @@ public class SaveOrUpdateUseCase implements UseCase<Long> {
         details.setId(id);
 
         detailsRepository.saveOrUpdate(detailsMapper.transform(details));
-
         return id;
     }
 }
