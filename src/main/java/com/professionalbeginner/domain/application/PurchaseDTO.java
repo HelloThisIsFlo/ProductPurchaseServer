@@ -1,6 +1,7 @@
 package com.professionalbeginner.domain.application;
 
 import com.google.common.base.MoreObjects;
+import com.professionalbeginner.domain.core.Purchase;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -8,6 +9,8 @@ import java.util.Objects;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class PurchaseDTO {
+
+    public static final PurchaseDTO NULL = new PurchaseDTO(0, "", LocalDateTime.MIN, DetailsDTO.NULL);
 
     public final long id;
     public final String productType;

@@ -3,6 +3,8 @@ package com.professionalbeginner.integration;
 import com.professionalbeginner.ProductPurchaseServerApplication;
 import com.professionalbeginner.data.detail.jpa.DetailJPA;
 import com.professionalbeginner.data.detail.jpa.JpaDetailRepository;
+import com.professionalbeginner.data.purchase.jpa.JpaPurchaseRepository;
+import com.professionalbeginner.data.purchase.jpa.PurchaseJPA;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCase;
@@ -33,15 +35,28 @@ public class RetrieveValidPurchasesUseCaseIntegrationTest {
 
     @Autowired
     JpaDetailRepository jpaDetailRepository;
+    @Autowired
+    JpaPurchaseRepository jpaPurchaseRepository;
 
     @Before
     public void setUp() throws Exception {
         // Init the database
-        jpaDetailRepository.deleteAll();
+        jpaDetailRepository.deleteAll(); //Clean detail repo because using generated id
+        // Do not clean purchase repo, simply override with manual id.
 
         jpaDetailRepository.save(new DetailJPA(1, "hello", 1, 1));
         jpaDetailRepository.save(new DetailJPA(2, "hello2", 12, 12));
         jpaDetailRepository.save(new DetailJPA(3, "hello3", 13, 13));
+
+        LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);
+        LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 2);
+        LocalDateTime dateTime3 = LocalDateTime.of(2016, 1, 1, 1, 3);
+
+        jpaPurchaseRepository.save(new PurchaseJPA(1, "type 1", dateTime1));
+        jpaPurchaseRepository.save(new PurchaseJPA(2, "type 2", dateTime2));
+        jpaPurchaseRepository.save(new PurchaseJPA(3, "type 3", dateTime3));
+
+        Iterable<PurchaseJPA> all = jpaPurchaseRepository.findAll();
 
     }
 

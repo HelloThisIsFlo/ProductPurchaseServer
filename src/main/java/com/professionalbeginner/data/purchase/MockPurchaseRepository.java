@@ -50,7 +50,7 @@ public class MockPurchaseRepository implements PurchaseRepository {
     }
 
     private int generateId(PurchaseDTO toSave) {
-        if (toSave.id == 0) {
+        if (toSave.id <= 0) {
             return dataset.size() + 1;
         }
         return (int) toSave.id;

@@ -42,7 +42,7 @@ public class JpaInMemoryDetailsRepository implements DetailsRepository {
 
         DetailJPA existingRecord = jpaRepo.findByDomainId(id);
         if (existingRecord != null) {
-            jpaRepo.delete(id);
+            jpaRepo.delete(existingRecord);
         }
 
 

@@ -4,6 +4,9 @@ import com.professionalbeginner.data.detail.jpa.JpaDetailRepository;
 import com.professionalbeginner.data.detail.jpa.JpaInMemoryDetailsRepository;
 import com.professionalbeginner.data.detail.jpa.JpaDetailMapper;
 import com.professionalbeginner.data.purchase.FakePurchaseRepository;
+import com.professionalbeginner.data.purchase.jpa.JpaInMemoryPurchaseRepository;
+import com.professionalbeginner.data.purchase.jpa.JpaPurchaseMapper;
+import com.professionalbeginner.data.purchase.jpa.JpaPurchaseRepository;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.driven.DetailsRepository;
@@ -27,23 +30,29 @@ public class DataConfiguration {
 
     @Bean
     @Profile("integration")
-    public PurchaseRepository getPurchaseRepository_integration() {
-        List<PurchaseDTO> fakeDataset = new ArrayList<>();
-
-        LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);
-        LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 2);
-        LocalDateTime dateTime3 = LocalDateTime.of(2016, 1, 1, 1, 3);
-
-        PurchaseDTO purchaseDTO1 = new PurchaseDTO(1, "type 1", dateTime1, DetailsDTO.NULL);
-        PurchaseDTO purchaseDTO2 = new PurchaseDTO(2, "type 2", dateTime2, DetailsDTO.NULL);
-        PurchaseDTO purchaseDTO3 = new PurchaseDTO(3, "type 3", dateTime3, DetailsDTO.NULL);
-
-        fakeDataset.add(purchaseDTO1);
-        fakeDataset.add(purchaseDTO2);
-        fakeDataset.add(purchaseDTO3);
-
-        return new FakePurchaseRepository(fakeDataset);
+    public PurchaseRepository getPurchaseRepository_integration(JpaPurchaseRepository jpaRepo, JpaPurchaseMapper jpaMapper) {
+        return new JpaInMemoryPurchaseRepository(jpaRepo, jpaMapper);
     }
+
+//    @Bean
+//    @Profile("integration")
+//    public PurchaseRepository getPurchaseRepository_integration() {
+//        List<PurchaseDTO> fakeDataset = new ArrayList<>();
+//
+//        LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);
+//        LocalDateTime dateTime2 = LocalDateTime.of(2016, 1, 1, 1, 2);
+//        LocalDateTime dateTime3 = LocalDateTime.of(2016, 1, 1, 1, 3);
+//
+//        PurchaseDTO purchaseDTO1 = new PurchaseDTO(1, "type 1", dateTime1, DetailsDTO.NULL);
+//        PurchaseDTO purchaseDTO2 = new PurchaseDTO(2, "type 2", dateTime2, DetailsDTO.NULL);
+//        PurchaseDTO purchaseDTO3 = new PurchaseDTO(3, "type 3", dateTime3, DetailsDTO.NULL);
+//
+//        fakeDataset.add(purchaseDTO1);
+//        fakeDataset.add(purchaseDTO2);
+//        fakeDataset.add(purchaseDTO3);
+//
+//        return new FakePurchaseRepository(fakeDataset);
+//    }
 
 
 }
