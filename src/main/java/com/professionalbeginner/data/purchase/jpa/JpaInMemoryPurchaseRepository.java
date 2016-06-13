@@ -28,6 +28,11 @@ public class JpaInMemoryPurchaseRepository implements PurchaseRepository {
 
     @Override
     public List<PurchaseDTO> getAll() {
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+        }
+
         List<PurchaseDTO> result = new ArrayList<>();
         Iterable<PurchaseJPA> allPurchase = jpaRepo.findAll();
         for (PurchaseJPA purchaseJPA : allPurchase) {

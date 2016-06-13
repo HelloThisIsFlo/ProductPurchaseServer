@@ -11,9 +11,7 @@ import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,11 +21,13 @@ import java.util.List;
 public class DataConfiguration {
 
     @Bean
+    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public DetailsRepository getDetailsRepository_integration(JpaDetailRepository jpaRepo, JpaDetailMapper jpaMapper) {
         return new JpaInMemoryDetailsRepository(jpaRepo, jpaMapper);
     }
 
     @Bean
+    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public PurchaseRepository getPurchaseRepository_integration(JpaPurchaseRepository jpaRepo, JpaPurchaseMapper jpaMapper) {
         return new JpaInMemoryPurchaseRepository(jpaRepo, jpaMapper);
     }

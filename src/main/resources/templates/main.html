@@ -35,12 +35,63 @@
     <div class="row">
         <h1>Purchase Server</h1>
     </div>
-    <div class="row">
-        <h4>Current Date</h4>
-        <form>
 
-            <input class="datepicker"/>
-            <button>Hello</button>
+
+    <div class="row">
+        <h4>Valid Purchases</h4>
+    </div>
+    <div class="row">
+        <table class="table" style="width:100%">
+            <tr>
+                <td class="text-capitalize text-primary">Type</td>
+                <td class="text-capitalize text-primary">Expires</td>
+                <td class="text-capitalize text-primary">Description</td>
+                <td class="text-capitalize text-primary">Quantity</td>
+                <td class="text-capitalize text-primary">Value</td>
+            </tr>
+            <!--<tr th:each="purchase : ${purchases}">-->
+            <!--<td th:text="${purchase.type}"></td>-->
+            <!--<td th:text="${purchase.expires}"></td>-->
+            <!--<td th:text="${purchase.description}"></td>-->
+            <!--<td th:text="${purchase.quantity}"></td>-->
+            <!--<td th:text="${purchase.value}"></td>-->
+            <!--</tr>-->
+        </table>
+    </div>
+    <div class="row">
+        <p th:text="${purchases}"></p>
+    </div>
+
+
+    <div class="row">
+        <hr/>
+        <h4>Add Purchase</h4>
+        <form action="#" th:action="@{/newPurchase}" th:object="${toadd}" method="post">
+            <div class="row">
+                <label>type</label><input type="text" th:field="*{type}"/>
+            </div>
+            <div class="row">
+                <label>expires</label><input class="datepicker" type="text" th:field="*{expires}"/>
+            </div>
+            <div class="row">
+                <label>description</label><input type="text" th:field="*{description}"/>
+            </div>
+            <div class="row">
+                <label>quantity</label><input type="text" th:field="*{quantity}"/>
+            </div>
+            <div class="row">
+                <label>value</label><input type="text" th:field="*{value}"/>
+            </div>
+            <button>Add</button>
+        </form>
+    </div>
+
+    <div class="row">
+        <hr/>
+        <h4>Current Date</h4>
+        <form action="#" th:action="@{/newDate}" th:object="${date}" method="post">
+            <input class="datepicker" type="text" th:field="*{currentDate}"/>
+            <button>Refresh</button>
         </form>
     </div>
 </div>
