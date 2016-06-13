@@ -6,6 +6,7 @@ import com.professionalbeginner.domain.core.validator.PurchaseValidator;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.nullToEmpty;
 
 /**
@@ -44,7 +45,7 @@ public class Purchase {
     }
 
     public void setProductType(String productType) {
-        this.productType = nullToEmpty(productType);
+        this.productType = checkNotNull(productType);
     }
 
     public LocalDateTime getExpires() {
@@ -52,10 +53,7 @@ public class Purchase {
     }
 
     public void setExpires(LocalDateTime expires) {
-        this.expires = expires;
-        if (this.expires == null) {
-            this.expires = LocalDateTime.MIN;
-        }
+        this.expires = checkNotNull(expires);
     }
 
     public Details getPurchaseDetails() {
@@ -63,10 +61,7 @@ public class Purchase {
     }
 
     public void setPurchaseDetails(Details purchaseDetails) {
-        this.purchaseDetails = purchaseDetails;
-        if (this.purchaseDetails == null) {
-            this.purchaseDetails = Details.NULL;
-        }
+        this.purchaseDetails = checkNotNull(purchaseDetails);
         ensureIdMatch();
     }
 

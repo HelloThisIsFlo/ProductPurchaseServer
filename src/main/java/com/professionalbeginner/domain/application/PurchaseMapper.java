@@ -4,8 +4,12 @@ import com.professionalbeginner.domain.core.Details;
 import com.professionalbeginner.domain.core.Purchase;
 import com.professionalbeginner.domain.core.PurchaseFactory;
 
+import java.time.LocalDateTime;
+
+import static com.google.common.base.Strings.nullToEmpty;
+
 /**
- * Mapper for Details
+ * Mapper for Purchase.
  */
 public class PurchaseMapper {
 
@@ -30,6 +34,14 @@ public class PurchaseMapper {
         } else {
             details = Details.NULL;
         }
-        return factory.make(purchaseDTO.id, purchaseDTO.productType, purchaseDTO.expires, details);
+
+        LocalDateTime expires = purchaseDTO.expires;
+        if (expires == null) {
+            expires = LocalDateTime.MIN;
+        }
+
+        String type = nullToEmpty(purchaseDTO.productType);
+
+        return factory.make(purchaseDTO.id, type, expires, details);
     }
 }

@@ -47,11 +47,4 @@ public class DetailsTest {
                 .testEquals();
     }
 
-
-
-    @Test
-    public void nullDescriptionField_replaceWithEmpty() throws Exception {
-        Details details = factory.make(1, null, 2, 3);
-        assertEquals("", details.getDescription());
-    }
 }

@@ -3,6 +3,8 @@ package com.professionalbeginner.domain.application;
 import com.professionalbeginner.domain.core.Details;
 import com.professionalbeginner.domain.core.DetailsFactory;
 
+import static com.google.common.base.Strings.nullToEmpty;
+
 /**
  * Mapper for Details
  */
@@ -19,6 +21,6 @@ public class DetailsMapper {
     }
 
     public Details transform(DetailsDTO detailsDTO) {
-        return factory.make(detailsDTO.id, detailsDTO.description, detailsDTO.quantity, detailsDTO.value);
+        return factory.make(detailsDTO.id, nullToEmpty(detailsDTO.description), detailsDTO.quantity, detailsDTO.value);
     }
 }

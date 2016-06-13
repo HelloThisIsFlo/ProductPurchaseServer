@@ -42,7 +42,7 @@ public class Details {
     }
 
     public void setDescription(String description) {
-        this.description = nullToEmpty(description);
+        this.description = description;
     }
 
     public int getQuantity() {

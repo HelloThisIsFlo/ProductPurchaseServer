@@ -14,9 +14,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Florian on 09/06/16.
- */
 public class PurchaseTest {
 
     DetailsFactory detailsFactory;
@@ -66,26 +63,8 @@ public class PurchaseTest {
     }
 
     @Test
-    public void nullType_replaceWithEmpty() throws Exception {
-        Purchase purchase = factory.make(1, null, LocalDateTime.MAX, details);
-        assertEquals("", purchase.getProductType());
-    }
-
-    @Test
-    public void nullExpire_replaceWithMIN() throws Exception {
-        Purchase purchase = factory.make(1, "type", null, details);
-        assertEquals(LocalDateTime.MIN, purchase.getExpires());
-    }
-
-    @Test
-    public void nullDetails_replaceWithNullObject() throws Exception {
-        Purchase purchase = factory.make(1, "type", LocalDateTime.MAX, null);
-        assertEquals(Details.NULL, purchase.getPurchaseDetails());
-    }
-
-    @Test
     public void verifyValidity_callsValidator() throws Exception {
-        Purchase purchase = factory.make(1, "type", LocalDateTime.MAX, null);
+        Purchase purchase = factory.make(1, "type", LocalDateTime.MAX, Details.NULL);
         LocalDateTime currentTime = LocalDateTime.of(2016, 1, 1, 1, 1);
 
         purchase.validate(currentTime);
@@ -98,7 +77,7 @@ public class PurchaseTest {
         try {
             factory.make(1, "type", LocalDateTime.MIN, detailsFactory.make(2, "", 1, 1));
             fail("Different PurchaseId and DetailsId should throw exception");
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             //expected do nothing
         }
 
@@ -108,6 +87,20 @@ public class PurchaseTest {
         } catch (RuntimeException e) {
             fail("Should not check Id on NULL detail");
         }
+    }
 
+    @Test(expected = NullPointerException.class)
+    public void nullProductType_throwException() throws Exception {
+        factory.make(1, null, LocalDateTime.MIN, Details.NULL);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullExpires_throwException() throws Exception {
+        factory.make(1, "type", null, Details.NULL);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullDetails_throwException() throws Exception {
+        factory.make(1, "type", LocalDateTime.MIN, null);
     }
 }
