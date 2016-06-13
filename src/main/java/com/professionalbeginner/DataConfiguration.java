@@ -1,6 +1,8 @@
 package com.professionalbeginner;
 
-import com.professionalbeginner.data.detail.FakeDetailsRepository;
+import com.professionalbeginner.data.detail.jpa.JpaDetailRepository;
+import com.professionalbeginner.data.detail.jpa.JpaInMemoryDetailsRepository;
+import com.professionalbeginner.data.detail.jpa.JpaDetailMapper;
 import com.professionalbeginner.data.purchase.FakePurchaseRepository;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.PurchaseDTO;
@@ -19,18 +21,13 @@ public class DataConfiguration {
 
     @Bean
     @Profile("integration")
-    public DetailsRepository getDetailsRepository_integration() {
-        List<DetailsDTO> fakeDataset = new ArrayList<>();
-        fakeDataset.add(new DetailsDTO(1, "hello", 1, 1));
-        fakeDataset.add(new DetailsDTO(2, "hello2", 12, 12));
-        fakeDataset.add(new DetailsDTO(3, "hello3", 13, 13));
-
-        return new FakeDetailsRepository(fakeDataset);
+    public DetailsRepository getDetailsRepository_integration(JpaDetailRepository jpaRepo, JpaDetailMapper jpaMapper) {
+        return new JpaInMemoryDetailsRepository(jpaRepo, jpaMapper);
     }
 
     @Bean
     @Profile("integration")
-    public PurchaseRepository getPurchaseRepository_integrations() {
+    public PurchaseRepository getPurchaseRepository_integration() {
         List<PurchaseDTO> fakeDataset = new ArrayList<>();
 
         LocalDateTime dateTime1 = LocalDateTime.of(2016, 1, 1, 1, 1);
@@ -47,4 +44,6 @@ public class DataConfiguration {
 
         return new FakePurchaseRepository(fakeDataset);
     }
+
+
 }

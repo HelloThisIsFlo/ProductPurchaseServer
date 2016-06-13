@@ -6,6 +6,7 @@ import com.professionalbeginner.domain.application.driven.DetailsRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseRepository;
 import com.professionalbeginner.domain.application.driven.PurchaseSerializer;
 import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCaseFactory;
+import com.professionalbeginner.domain.application.driving.SaveOrUpdateUseCaseFactory;
 import com.professionalbeginner.domain.core.DetailsFactory;
 import com.professionalbeginner.domain.core.PurchaseFactory;
 import com.professionalbeginner.domain.core.validator.PurchaseValidator;
@@ -68,5 +69,14 @@ public class ApplicationConfiguration {
                 detailsMapper,
                 serializer
         );
+    }
+
+    @Bean
+    public SaveOrUpdateUseCaseFactory getSaveOrUpdateUseCaseFactory(
+            PurchaseRepository purchaseRepository,
+            DetailsRepository detailsRepository,
+            PurchaseMapper purchaseMapper,
+            DetailsMapper detailsMapper) {
+        return new SaveOrUpdateUseCaseFactory(purchaseRepository, detailsRepository, purchaseMapper, detailsMapper);
     }
 }

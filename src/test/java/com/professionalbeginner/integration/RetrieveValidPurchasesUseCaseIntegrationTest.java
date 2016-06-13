@@ -1,10 +1,13 @@
 package com.professionalbeginner.integration;
 
 import com.professionalbeginner.ProductPurchaseServerApplication;
+import com.professionalbeginner.data.detail.jpa.DetailJPA;
+import com.professionalbeginner.data.detail.jpa.JpaDetailRepository;
 import com.professionalbeginner.domain.application.DetailsDTO;
 import com.professionalbeginner.domain.application.PurchaseDTO;
 import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCase;
 import com.professionalbeginner.domain.application.driving.RetrieveValidPurchasesUseCaseFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,6 +30,20 @@ public class RetrieveValidPurchasesUseCaseIntegrationTest {
 
     @Autowired
     RetrieveValidPurchasesUseCaseFactory useCaseFactory;
+
+    @Autowired
+    JpaDetailRepository jpaDetailRepository;
+
+    @Before
+    public void setUp() throws Exception {
+        // Init the database
+        jpaDetailRepository.deleteAll();
+
+        jpaDetailRepository.save(new DetailJPA(1, "hello", 1, 1));
+        jpaDetailRepository.save(new DetailJPA(2, "hello2", 12, 12));
+        jpaDetailRepository.save(new DetailJPA(3, "hello3", 13, 13));
+
+    }
 
     @Test
     public void validateOnlyLastOne() throws Exception {
