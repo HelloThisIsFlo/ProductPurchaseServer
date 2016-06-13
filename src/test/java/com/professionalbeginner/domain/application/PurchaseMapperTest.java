@@ -81,4 +81,18 @@ public class PurchaseMapperTest {
         Purchase result = mapper.transform(withNullDetails);
         assertEquals(Details.NULL, result.getPurchaseDetails());
     }
+
+    @Test
+    public void detailsHasDifferentId_OverrideWithPurchaseId() throws Exception {
+        long expectedId = 1;
+        long differentId = 2;
+
+        DetailsDTO withDifferentId = new DetailsDTO(differentId, "asdfsdfsfds", 1, 1);
+        PurchaseDTO differentIdOnDetail = new PurchaseDTO(expectedId, "asd", LocalDateTime.MIN, withDifferentId);
+
+        Purchase result = mapper.transform(differentIdOnDetail);
+        Details resultingDetails = result.getPurchaseDetails();
+
+        assertEquals(expectedId, resultingDetails.getId());
+    }
 }

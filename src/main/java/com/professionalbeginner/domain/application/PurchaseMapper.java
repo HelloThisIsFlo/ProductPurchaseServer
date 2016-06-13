@@ -28,20 +28,35 @@ public class PurchaseMapper {
 
     public Purchase transform(PurchaseDTO purchaseDTO) {
 
+        Details details = getNullSafeDetails(purchaseDTO);
+
+        // Override id with purchase Id
+        if (details != Details.NULL) {
+            details.setId(purchaseDTO.id);
+        }
+
+        LocalDateTime expires = getNullSafeExpires(purchaseDTO);
+        String type = nullToEmpty(purchaseDTO.productType);
+
+        return factory.make(purchaseDTO.id, type, expires, details);
+    }
+
+
+    private LocalDateTime getNullSafeExpires(PurchaseDTO purchaseDTO) {
+        LocalDateTime expires = purchaseDTO.expires;
+        if (expires == null) {
+            expires = LocalDateTime.MIN;
+        }
+        return expires;
+    }
+
+    private Details getNullSafeDetails(PurchaseDTO purchaseDTO) {
         Details details;
         if (purchaseDTO.purchaseDetails != null) {
             details = detailsMapper.transform(purchaseDTO.purchaseDetails);
         } else {
             details = Details.NULL;
         }
-
-        LocalDateTime expires = purchaseDTO.expires;
-        if (expires == null) {
-            expires = LocalDateTime.MIN;
-        }
-
-        String type = nullToEmpty(purchaseDTO.productType);
-
-        return factory.make(purchaseDTO.id, type, expires, details);
+        return details;
     }
 }
